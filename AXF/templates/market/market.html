@@ -2,17 +2,53 @@
 {% load static %}
 
 {% block title %}
-    闪鲜超市
+    闪购超市
 {% endblock %}
 
 {% block extcss %}
     <link rel="stylesheet" href="{% static 'market/css/market.css' %}">
 {% endblock %}
-
-{% block content %}
-闪鲜超市
-{% endblock %}
-
 {% block extjs %}
     <script src="{% static 'market/js/market.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="market">
+{#       分类#}
+        <div class="type-slider">
+            <ul>
+                {% for foodtype in foodtypes %}
+                    <li>
+                        <span></span>
+                        <a href="#">
+                            {% if forloop.counter == foodtype.typesort %}
+                                {{ foodtype.typename }}
+                            {% endif %}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+{#      导航#}
+        <nav>
+            <ul>
+                <li>
+                    <span>
+                        全部类型
+                        <i class="glyphicon glyphicon-chevron-up"></i>
+                    </span>
+                </li>
+                <li>
+                    <span>
+                        综合排序
+                        <i class="glyphicon glyphicon-chevron-up"></i>
+                    </span>
+                </li>
+            </ul>
+        </nav>
+
+{#      主体内容#}
+        <div class="main-content"></div>
+    </div>
 {% endblock %}
