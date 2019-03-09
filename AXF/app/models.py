@@ -75,7 +75,7 @@ class Foodtypes(models.Model):
 
     class Meta:
         db_table='axf_foodtypes'
-
+# productid,productimg,productname,productlongname,isxf,pmdesc,specifics,price,marketprice,categoryid,childcid,childcidname,dealerid,storenums,productnum
 class  Goods(models.Model):
     # 商品ID
     productid = models.CharField(max_length=10)
@@ -85,24 +85,24 @@ class  Goods(models.Model):
     productname = models.CharField(max_length=100)
     # 商品长名字
     productlongname = models.CharField(max_length=200)
-    # 精选
-    isxf = models.BooleanField(default=False)
-    # 买一送一
-    pmdesc = models.BooleanField(default=False)
+    # 是否精选
+    isxf = models.IntegerField()
+    # 是否买一送一
+    pmdesc = models.IntegerField()
     # 规格
     specifics = models.CharField(max_length=100)
     # 价格
-    price = models.FloatField()
+    price = models.DecimalField(max_digits=6,decimal_places=2)
     # 超市价格
-    marketprice = models.FloatField()
+    marketprice = models.DecimalField(max_digits=6,decimal_places=2)
     # 分类ID
     categoryid = models.CharField(max_length=10)
     # 子类ID
     childcid = models.CharField(max_length=10)
     # 子类名字
-    childcidname = models.CharField(max_length=50)
+    childcidname = models.CharField(max_length=100)
     # 详情id
-    dealerid = models.CharField(max_length=10)
+    dealerid = models.CharField(max_length=100)
     # 库存量
     storenums = models.IntegerField()
     # 销售量
@@ -113,3 +113,20 @@ class  Goods(models.Model):
 
 
 
+
+class User(models.Model):
+
+    # 邮箱
+    email=models.CharField(max_length=40,unique=True)
+
+    password=models.CharField(max_length=256)
+
+    name=models.CharField(max_length=100)
+
+    img=models.CharField(max_length=40,default='axf.png')
+
+    # 等级
+    rank=models.IntegerField(default=1)
+
+    class Meta:
+        db_table='axf_user'

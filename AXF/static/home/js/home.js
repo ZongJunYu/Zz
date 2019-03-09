@@ -1,5 +1,5 @@
 $(function () {
-    恢复盒子大小
+    // 恢复盒子大小
     $('.home').width(innerWidth)
 
     var topSwiper = new Swiper('#topSwiper', {
@@ -21,7 +21,7 @@ $(function () {
     //     clickable: true,
     //   },
     // });
-    var mustbuySwiper = new Swiper('#mustbuySwiper', {
+    var mustbuySwiper = new Swiper('#mustbuySwiper',{
         slidesPerView: 3,
         spaceBetween:3,
         autoplay:3000,
