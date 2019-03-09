@@ -1,7 +1,12 @@
-from django.shortcuts import render
+import hashlib
+import random
+import time
+
+from django.core.cache import cache
+from django.shortcuts import render, redirect
 
 # Create your views here.
-from app.models import Wheel, Nav, Mustbuy, Shop, Mainshow, Foodtypes, Goods
+from app.models import Wheel, Nav, Mustbuy, Shop, Mainshow, Foodtypes, Goods, User
 
 
 def home(request):
@@ -105,16 +110,56 @@ def cart(request):
 
 
 def mine(request):
-    return render(request,'mine/mine.html')
+    #获取
+    token=request.session.get('token')
+    userid = cache.get(token)
+    user=None
+    print(token)
+    if userid:
+        user=User.objects.get(pk=userid)
+
+    return render(request,'mine/mine.html',context={'user':user})
 
 
 def login(request):
-    return None
+    return render(request,'mine/login.html')
 
 
 def logout(request):
-    return None
+    request.session.flush()
+    return redirect('axf:mine')
+
+
+def generate_password(param):
+    md5=hashlib.md5()
+    md5.update(param.encode('utf-8'))
+    return md5.hexdigest()
+
+
+def generate_token():
+    temp = str(time.time())+str(random.random())
+    md5 = hashlib.md5()
+    md5.update(temp.encode('utf-8'))
+    return md5.hexdigest()
 
 
 def register(request):
-    return None
+    if request.method=='GET':
+        return render(request,'mine/register.html')
+    elif request.method=='POST':
+        email=request.POST.get('email')
+        name=request.POST.get('name')
+        password=generate_password(request.POST.get('password'))
+        # print(email,name,password)
+        user=User()
+        user.email=email
+        user.name=name
+        user.password=password
+        user.save()
+
+        token=generate_token()
+        cache.set(token,user.id,60*60*24*7)
+
+        request.session['token'] = token
+
+        return redirect('axf:mine')
