@@ -1,0 +1,48 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block title %}
+    登录
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+{% block extcss %}
+    <link rel="stylesheet" href="{% static 'mine/css/login.css' %}">
+{% endblock %}
+
+{% block extjs %}
+    <script src="{% static 'mine/js/login.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="login">
+        <div id="subButton" class="back">
+            <a href="{% url 'axf:login' %}">
+                <span class="glyphicon glyphicon-remove"></span>
+            </a>
+        </div>
+        <form action="{% url 'axf:login' %}" method="post">
+            {% csrf_token %}
+            <div class="input-group">
+                <span class="input-group-addon">邮箱</span>
+                <input type="text" class="form-control" placeholder="email" name="email">
+            </div>
+            <p style="color: #e62e2e">{{ user_err }}</p>
+            <div class="input-group">
+                <span class="input-group-addon">密码</span>
+                <input type="password" class="form-control" placeholder="6-10" name="password">
+            </div>
+            <p style="color: #e62e2e">{{ ps_err }}</p>
+
+
+            <input type="submit" value="登录" id="subButton">
+
+
+
+
+
+        </form>
+
+    </div>
+{% endblock %}
