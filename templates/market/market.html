@@ -59,10 +59,10 @@
                                 <div class="goods-info">
                                     <p class="name">{{ goods.productlongname }}</p>
                                     <p class="detailtag">
-                                        {% if goods.isxf %}
+                                        {% if  goods.isxf %}
                                             <span class="xf">精选</span>
                                         {% endif %}
-                                        <span>銷量：{{ goods.productnum }}</span>
+                                        <span>销量: {{ goods.productnum }}</span>
                                     </p>
                                     <p class="specifics">{{ goods.specifics }}</p>
                                     <p class="price">
@@ -72,21 +72,30 @@
                                 </div>
                             </a>
                             <div class="bt-wrapper">
-                               <span class="glyphicon glyphicon-minus"></span>
-                               <i>100</i>
-                               <span class="glyphicon glyphicon-plus"></span>
+                                <span class="glyphicon glyphicon-minus" data-goodsid="{{ goods.id }}"></span>
+
+                                {#                             问题: 当前商品goods.id#}
+                                {#                              carts#}
+                                <i class="num">
+                                    {% for cart in carts %}
+                                        {#                                    当前购物车记录的 goods.id#}
+                                        {% if goods.id == cart.goods.id %}
+                                            {{ cart.number }}
+                                        {% endif %}
+                                    {% endfor %}
+                                </i>
+                                <span class="glyphicon glyphicon-plus" data-goodsid="{{ goods.id }}"></span>
                             </div>
                         </li>
                     {% endfor %}
-
                 </ul>
             </div>
+
             <div class="bounce-view category-view">
                 <div class="bounce-wrapper">
                     {% for childtype in childtype_list %}
-                        <a href="{% url 'axf:market' childtype.id  0 %}">{{ childtype.name }}</a>
+                        <a href="{% url 'axf:market' childtype.id 0 %}">{{ childtype.name }}</a>
                     {% endfor %}
-
                 </div>
             </div>
             <div class="bounce-view sort-view">
